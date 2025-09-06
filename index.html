@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarvamangal Yatra - Digital Bill Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Sarvamangal Yatra - Digital Bill Generator</h1>
+        
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2>Bill Details</h2>
+            <form id="billForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="billNo">Bill No:</label>
+                        <input type="text" id="billNo" name="billNo" placeholder="Enter Bill Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="billDate">Date:</label>
+                        <input type="date" id="billDate" name="billDate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerName">Name:</label>
+                        <input type="text" id="customerName" name="customerName" placeholder="Enter Customer Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookedBy">Booked by:</label>
+                        <input type="text" id="bookedBy" name="bookedBy" placeholder="Enter Booked By">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vehicleType">Vehicle Type:</label>
+                        <input type="text" id="vehicleType" name="vehicleType" placeholder="Enter Vehicle Type (e.g., Sedan, SUV)">
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleNo">Vehicle No:</label>
+                        <input type="text" id="vehicleNo" name="vehicleNo" placeholder="Enter Vehicle Number">
+                    </div>
+                </div>
+
+                <h3>Journey Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="journeyDate">Date of Journey:</label>
+                        <input type="date" id="journeyDate" name="journeyDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="closingDate">Closing Date:</label>
+                        <input type="date" id="closingDate" name="closingDate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="openingKms">Opening Kms:</label>
+                        <input type="number" id="openingKms" name="openingKms" placeholder="Enter Opening Kilometers">
+                    </div>
+                    <div class="form-group">
+                        <label for="closingKms">Closing Kms:</label>
+                        <input type="number" id="closingKms" name="closingKms" placeholder="Enter Closing Kilometers">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="openingTime">Opening Time:</label>
+                        <input type="time" id="openingTime" name="openingTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="closingTime">Closing Time:</label>
+                        <input type="time" id="closingTime" name="closingTime">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="totalDays">Total No of Days:</label>
+                        <input type="number" id="totalDays" name="totalDays" placeholder="Enter Number of Days" min="1">
+                    </div>
+                </div>
+
+                <h3>Service Details</h3>
+                <div class="service-details">
+                    <div class="form-group">
+                        <label for="serviceType">Service Type:</label>
+                        <input type="text" id="serviceType" name="serviceType" placeholder="Enter Service Type (e.g., Local Charge: 4 Hr: 40KM)">
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Rate (₹):</label>
+                        <input type="number" id="rate" name="rate" placeholder="Enter Rate Amount">
+                    </div>
+                </div>
+
+                <h3>Additional Expenses</h3>
+                <div class="expenses-section">
+                    <div id="expenses-container">
+                        <div class="form-row expense-row">
+                            <div class="form-group">
+                                <label for="expense1">Expense 1:</label>
+                                <input type="text" id="expense1" name="expense1" placeholder="e.g., Damage charges, Extra service">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount1">Amount (₹):</label>
+                                <input type="number" id="amount1" name="amount1" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="form-row expense-row">
+                            <div class="form-group">
+                                <label for="expense2">Expense 2:</label>
+                                <input type="text" id="expense2" name="expense2" placeholder="e.g., Toll charges, Parking">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount2">Amount (₹):</label>
+                                <input type="number" id="amount2" name="amount2" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="form-row expense-row">
+                            <div class="form-group">
+                                <label for="expense3">Expense 3:</label>
+                                <input type="text" id="expense3" name="expense3" placeholder="e.g., Fuel surcharge, Cleaning">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount3">Amount (₹):</label>
+                                <input type="number" id="amount3" name="amount3" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expense-actions">
+                        <button type="button" onclick="addExpenseField()" class="add-expense-btn">+ Add More Expenses</button>
+                    </div>
+                </div>
+
+                <h3>Payment Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="advance">Advance Payment (₹):</label>
+                        <input type="number" id="advance" name="advance" placeholder="Enter Advance Amount" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMode">Payment Mode:</label>
+                        <input type="text" id="paymentMode" name="paymentMode" placeholder="Cash, Card, UPI, etc.">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="generateBill()">Generate Bill</button>
+                    <button type="button" onclick="downloadPDF()">Download PDF</button>
+                    <button type="button" onclick="testPDF()" style="background: #28a745;">Test PDF</button>
+                    <button type="button" onclick="resetForm()">Reset Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Bill Preview Section -->
+        <div class="bill-preview" id="billPreview">
+            <div class="bill-container" id="billContainer">
+                <!-- Bill content will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="image.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
