@@ -314,7 +314,7 @@ async function downloadPDF(event) {
         })));
 
         const canvas = await html2canvas(hidden, {
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
             allowTaint: true,
             backgroundColor: '#FFF8EE',
@@ -337,7 +337,7 @@ async function downloadPDF(event) {
         const pdf = new jsPDF('p', 'mm', 'a4');
         const imgWidth = 210;
         const imgHeight = Math.min((canvas.height * imgWidth) / canvas.width, 297);
-        pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, imgWidth, imgHeight);
 
         const billNo = document.getElementById('billNo').value || 'Bill';
         const customerName = document.getElementById('customerName').value || 'Customer';
