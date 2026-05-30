@@ -145,7 +145,10 @@ h1 {
 }
 
 .form-actions {
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
     margin-top: 30px;
 }
 
@@ -153,13 +156,13 @@ h1 {
     background: #ff6b35;
     color: white;
     border: none;
-    padding: 12px 30px;
-    margin: 0 10px;
+    padding: 12px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
     transition: background-color 0.3s;
+    flex: 1 1 130px;
 }
 
 .form-actions button:hover {
@@ -557,6 +560,91 @@ h1 {
     margin-top: 3px;
 }
 
+/* ===== MAIN LAYOUT — side-by-side on desktop ===== */
+.main-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.form-panel {
+    flex: 0 0 42%;
+    min-width: 0;
+}
+
+.preview-panel {
+    flex: 1;
+    min-width: 0;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+/* ===== MOBILE TABS ===== */
+.mobile-tabs {
+    display: none;
+    gap: 4px;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    background: transparent;
+    color: #666;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-btn.active {
+    background: #ff6b35;
+    color: white;
+}
+
+/* ===== BILL NO AUTO-FILL ===== */
+.input-with-btn {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.input-with-btn input {
+    flex: 1;
+    min-width: 0;
+}
+
+.auto-fill-btn {
+    padding: 0 12px;
+    background: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.auto-fill-btn:hover {
+    background: #e55a2b;
+}
+
+/* ===== VALIDATION HIGHLIGHT ===== */
+.form-group input.invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 820px) {
     .scroll-hint {
@@ -565,21 +653,33 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    .mobile-tabs {
+        display: flex;
+    }
+
+    .main-layout {
+        display: block;
+    }
+
+    .form-panel {
+        flex: none;
+        max-width: 100%;
+    }
+
+    .preview-panel {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .form-panel.hidden,
+    .preview-panel.hidden {
+        display: none;
+    }
+
     .form-row {
         flex-direction: column;
         gap: 10px;
-    }
-
-    .form-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .form-actions button {
-        margin: 0;
-        flex: 1 1 140px;
     }
 
     h1 {

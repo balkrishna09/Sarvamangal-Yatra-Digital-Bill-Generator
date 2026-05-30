@@ -1,9 +1,25 @@
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
+    // Default bill date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('billDate').value = today;
+
     document.getElementById('openingKms').addEventListener('input', calculateTotalKms);
     document.getElementById('closingKms').addEventListener('input', calculateTotalKms);
     document.getElementById('journeyDate').addEventListener('change', calculateTotalDays);
     document.getElementById('closingDate').addEventListener('change', calculateTotalDays);
+
+    // Real-time preview on any form change
+    const form = document.getElementById('billForm');
+    form.addEventListener('input', generateBill);
+    form.addEventListener('change', generateBill);
+
+    // Clear invalid highlight when the user starts typing in a field
+    form.addEventListener('input', function(e) {
+        if (e.target.classList.contains('invalid')) {
+            e.target.classList.remove('invalid');
+        }
+    });
 
     window.expenseCounter = 3;
     generateBill();
@@ -274,9 +290,49 @@ function generateBill() {
     document.getElementById('billContainer').innerHTML = billHTML;
 }
 
+// Auto-fill bill number: YYMMDD + 001 (e.g. 250530001)
+function autoFillBillNo() {
+    const now = new Date();
+    const yy = String(now.getFullYear()).slice(2);
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    document.getElementById('billNo').value = `${yy}${mm}${dd}001`;
+    generateBill();
+}
+
+// Mobile tab switcher
+function switchTab(tab) {
+    const formPanel = document.getElementById('formPanel');
+    const previewPanel = document.getElementById('previewPanel');
+    document.getElementById('tabForm').classList.toggle('active', tab === 'form');
+    document.getElementById('tabPreview').classList.toggle('active', tab === 'preview');
+    formPanel.classList.toggle('hidden', tab !== 'form');
+    previewPanel.classList.toggle('hidden', tab !== 'preview');
+}
+
+// Validate required fields and highlight blanks; returns true if all pass
+function validateForm() {
+    const required = ['customerName', 'vehicleType', 'vehicleNo', 'serviceType', 'rate'];
+    let valid = true;
+    required.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+            el.classList.add('invalid');
+            valid = false;
+        } else {
+            el.classList.remove('invalid');
+        }
+    });
+    return valid;
+}
+
 // Download PDF — uses a hidden A4-width container so output is always correct
 // regardless of the user's screen or viewport size
 async function downloadPDF(event) {
+    if (!validateForm()) {
+        alert('Please fill in the highlighted fields before downloading.');
+        return;
+    }
     const button = event
         ? event.target
         : document.querySelector('button[onclick="downloadPDF(event)"]');
@@ -399,6 +455,9 @@ function testPDF() {
 // Reset form
 function resetForm() {
     document.getElementById('billForm').reset();
+
+    // Restore default bill date to today after reset
+    document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
 
     const container = document.getElementById('expenses-container');
     const rows = container.querySelectorAll('.expense-row');
