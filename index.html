@@ -155,7 +155,7 @@
 
                 <div class="form-actions">
                     <button type="button" onclick="generateBill()">Generate Bill</button>
-                    <button type="button" onclick="downloadPDF()">Download PDF</button>
+                    <button type="button" onclick="downloadPDF(event)">Download PDF</button>
                     <button type="button" onclick="testPDF()" style="background: #28a745;">Test PDF</button>
                     <button type="button" onclick="resetForm()">Reset Form</button>
                 </div>
@@ -163,7 +163,8 @@
         </div>
 
         <!-- Bill Preview Section -->
-        <div class="bill-preview" id="billPreview">
+        <div class="bill-preview-scroll" id="billPreview">
+            <p class="scroll-hint">&#8592; Scroll left/right to see full bill &#8594;</p>
             <div class="bill-container" id="billContainer">
                 <!-- Bill content will be generated here -->
             </div>
