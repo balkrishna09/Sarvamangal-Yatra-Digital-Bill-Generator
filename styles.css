@@ -612,9 +612,8 @@ h1 {
     width: 100%;
 }
 
-.form-panel.hidden,
-.preview-panel.hidden {
-    display: none;
+.hidden {
+    display: none !important;
 }
 
 /* ===== TABS ===== */
